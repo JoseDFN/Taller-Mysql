@@ -1,3 +1,5 @@
+USE vtaszfs;
+
 -- 1. Enunciado: Crear un trigger que registre en HistorialSalarios cada cambio de salario de empleados.
 DELIMITER $$
 CREATE TRIGGER trg_registrar_cambio_salario

@@ -1,3 +1,5 @@
+USE vtaszfs;
+
 -- Enunciado: Función CalcularDescuento
 -- Objetivo: Crear una función que reciba el tipo_id del producto y el precio original,
 -- y aplique un descuento del 10% si el producto pertenece a la categoría 'Electrónica'.
@@ -24,9 +26,7 @@ END$$
 DELIMITER ;
 
 -- Enunciado: Consulta para mostrar el nombre del producto, el precio original y el precio con descuento.
-SELECT p.nombre AS Producto, 
-       p.precio AS Precio_Original, 
-       CalcularDescuento(p.tipo_id, p.precio) AS Precio_Con_Descuento
+SELECT p.nombre AS Producto, p.precio AS Precio_Original, CalcularDescuento(p.tipo_id, p.precio) AS Precio_Con_Descuento
 FROM productos p;
 
 -- Enunciado: Función CalcularEdad
@@ -57,9 +57,7 @@ END$$
 DELIMITER ;
 
 -- Enunciado: Consulta para mostrar el nombre del producto, el precio original y el precio final con impuesto incluido.
-SELECT nombre, 
-       precio AS Precio_Original, 
-       CalcularImpuesto(precio) AS Precio_Final_Impuesto
+SELECT nombre, precio AS Precio_Original, CalcularImpuesto(precio) AS Precio_Final_Impuesto
 FROM productos;
 
 -- Enunciado: Función TotalPedidosCliente
@@ -88,7 +86,7 @@ WHERE TotalPedidosCliente(c.id) > 1000;
 -- Enunciado: Función SalarioAnual
 -- Objetivo: Crear una función que reciba el salario mensual de un empleado y calcule su salario anual multiplicándolo por 12.
 DELIMITER $$
-CREATE FUNCTION SalarioAnual(p_salario_mensual DECIMAL(10,2))
+CREATE FUNCTION SalarioAnual(p_salario_mensual DECIMAL(8,2))
 RETURNS DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
@@ -105,7 +103,7 @@ WHERE SalarioAnual(salario) > 50000;
 -- Enunciado: Función Bonificacion
 -- Objetivo: Crear una función que reciba el salario de un empleado y calcule una bonificación del 10%.
 DELIMITER $$
-CREATE FUNCTION Bonificacion(p_salario DECIMAL(10,2))
+CREATE FUNCTION Bonificacion(p_salario DECIMAL(8,2))
 RETURNS DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
@@ -196,8 +194,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE ReporteVentasMensuales(IN p_mes INT, IN p_anio INT)
 BEGIN
-    SELECT de.nombre AS Empleado, 
-           IFNULL(SUM(dp.cantidad * dp.precio), 0) AS Total_Ventas
+    SELECT de.nombre AS Empleado, IFNULL(SUM(dp.cantidad * dp.precio), 0) AS Total_Ventas
     FROM datos_empleados de
     LEFT JOIN pedidos p ON de.id = p.empleado_id
     LEFT JOIN detalles_pedido dp ON p.id = dp.pedido_id
@@ -208,8 +205,7 @@ DELIMITER ;
 
 -- Enunciado: Consulta para obtener el producto más vendido por cada proveedor.
 -- Se utiliza una subconsulta para calcular la cantidad total vendida por cada producto.
-SELECT pv.nombre AS Proveedor, 
-       p.nombre AS Producto,
+SELECT pv.nombre AS Proveedor, p.nombre AS Producto,
        (SELECT SUM(dp.cantidad)
         FROM detalles_pedido dp
         WHERE dp.producto_id = p.id) AS Total_Vendido

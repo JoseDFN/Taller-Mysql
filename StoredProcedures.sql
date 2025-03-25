@@ -1,9 +1,8 @@
+USE vtaszfs;
+
 -- 1. Crear un procedimiento para actualizar el precio de todos los productos de un proveedor.
 DELIMITER $$
-CREATE PROCEDURE spActualizarPrecioPorProveedor (
-    IN p_proveedor_id INT,
-    IN p_nuevo_precio DECIMAL(10,2)
-)
+CREATE PROCEDURE spActualizarPrecioPorProveedor (IN p_proveedor_id INT, IN p_nuevo_precio DECIMAL(10,2))
 BEGIN
     UPDATE productos
     SET precio = p_nuevo_precio
@@ -13,9 +12,7 @@ DELIMITER ;
 
 -- 2. Un procedimiento que devuelva la dirección de un cliente por ID.
 DELIMITER $$
-CREATE PROCEDURE spObtenerDireccionCliente (
-    IN p_cliente_id INT
-)
+CREATE PROCEDURE spObtenerDireccionCliente (IN p_cliente_id INT)
 BEGIN
     SELECT u.direccion, u.ciudad, u.estado, u.codigo_postal, u.pais
     FROM entidad_ubicaciones eu
@@ -27,14 +24,7 @@ DELIMITER ;
 -- 3. Crear un procedimiento que registre un pedido nuevo y sus detalles.
 -- Se insertará un nuevo pedido y, a continuación, se registrará un detalle asociado.
 DELIMITER $$
-CREATE PROCEDURE spRegistrarPedidoNuevo (
-    IN p_cliente_id INT,
-    IN p_empleado_id INT,
-    IN p_fecha DATE,
-    IN p_producto_id INT,
-    IN p_cantidad INT,
-    IN p_precio DECIMAL(10,2)
-)
+CREATE PROCEDURE spRegistrarPedidoNuevo (IN p_cliente_id INT, IN p_empleado_id INT, IN p_fecha DATE, IN p_producto_id INT, IN p_cantidad INT, IN p_precio DECIMAL(10,2))
 BEGIN
     DECLARE v_pedido_id INT;
 
@@ -54,9 +44,7 @@ DELIMITER ;
 
 -- 4. Un procedimiento para calcular el total de ventas de un cliente.
 DELIMITER $$
-CREATE PROCEDURE spCalcularTotalVentasCliente (
-    IN p_cliente_id INT
-)
+CREATE PROCEDURE spCalcularTotalVentasCliente (IN p_cliente_id INT)
 BEGIN
     SELECT SUM(dp.cantidad * dp.precio) AS Total_Ventas
     FROM pedidos p
@@ -67,9 +55,7 @@ DELIMITER ;
 
 -- 5. Crear un procedimiento para obtener los empleados por puesto.
 DELIMITER $$
-CREATE PROCEDURE spObtenerEmpleadosPorPuesto (
-    IN p_puesto_id INT
-)
+CREATE PROCEDURE spObtenerEmpleadosPorPuesto (IN p_puesto_id INT)
 BEGIN
     SELECT id, nombre, puesto_id, salario, fecha_contratacion
     FROM datos_empleados
@@ -80,10 +66,7 @@ DELIMITER ;
 -- 6. Un procedimiento que actualice el salario de empleados por puesto.
 -- Se aplicará un incremento porcentual (por ejemplo, 0.10 para un aumento del 10%).
 DELIMITER $$
-CREATE PROCEDURE spActualizarSalarioEmpleadosPorPuesto (
-    IN p_puesto_id INT,
-    IN p_factor DECIMAL(5,2)
-)
+CREATE PROCEDURE spActualizarSalarioEmpleadosPorPuesto (IN p_puesto_id INT, IN p_factor DECIMAL(5,2))
 BEGIN
     UPDATE datos_empleados
     SET salario = salario * (1 + p_factor)
@@ -93,10 +76,7 @@ DELIMITER ;
 
 -- 7. Crear un procedimiento que liste los pedidos entre dos fechas.
 DELIMITER $$
-CREATE PROCEDURE spListarPedidosEntreFechas (
-    IN p_fecha_inicio DATE,
-    IN p_fecha_fin DATE
-)
+CREATE PROCEDURE spListarPedidosEntreFechas (IN p_fecha_inicio DATE, IN p_fecha_fin DATE)
 BEGIN
     SELECT p.id AS Id_Pedido, p.fecha AS Fecha_Pedido, c.nombre AS Nombre_Cliente
     FROM pedidos p
@@ -109,10 +89,7 @@ DELIMITER ;
 -- 8. Un procedimiento para aplicar un descuento a productos de una categoría.
 -- El descuento se aplica multiplicando el precio por (1 - p_descuento), donde p_descuento es el porcentaje (por ejemplo 0.10 para 10%).
 DELIMITER $$
-CREATE PROCEDURE spAplicarDescuentoAProductosPorCategoria (
-    IN p_tipo_id INT,
-    IN p_descuento DECIMAL(5,2)
-)
+CREATE PROCEDURE spAplicarDescuentoAProductosPorCategoria (IN p_tipo_id INT, IN p_descuento DECIMAL(5,2))
 BEGIN
     UPDATE productos
     SET precio = precio * (1 - p_descuento)
@@ -122,9 +99,7 @@ DELIMITER ;
 
 -- 9. Crear un procedimiento que liste todos los proveedores de un tipo de producto.
 DELIMITER $$
-CREATE PROCEDURE spListarProveedoresPorTipoProducto (
-    IN p_tipo_id INT
-)
+CREATE PROCEDURE spListarProveedoresPorTipoProducto (IN p_tipo_id INT)
 BEGIN
     SELECT DISTINCT pv.id AS Id_Proveedor, pv.nombre AS Nombre_Proveedor
     FROM proveedores pv

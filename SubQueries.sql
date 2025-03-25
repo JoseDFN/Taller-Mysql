@@ -1,8 +1,7 @@
+USE vtaszfs;
+
 -- 1. Consultar el producto más caro en cada categoría.
-SELECT 
-    tp.tipo_nombre AS Tipo_Producto,
-    p.nombre AS Producto,
-    p.precio AS Precio
+SELECT tp.tipo_nombre AS Tipo_Producto, p.nombre AS Producto, p.precio AS Precio
 FROM productos p
 INNER JOIN tipos_productos tp ON p.tipo_id = tp.id
 WHERE p.precio = (
@@ -12,8 +11,7 @@ WHERE p.precio = (
 );
 
 -- 2. Encontrar el cliente con mayor total en pedidos.
-SELECT 
-    c.nombre AS Nombre_Cliente,
+SELECT c.nombre AS Nombre_Cliente,
     (SELECT SUM(dp.cantidad * dp.precio)
      FROM pedidos p
      INNER JOIN detalles_pedido dp ON p.id = dp.pedido_id
@@ -34,15 +32,12 @@ WHERE (SELECT SUM(dp.cantidad * dp.precio)
       );
 
 -- 3. Listar empleados que ganan más que el salario promedio.
-SELECT 
-    nombre AS Nombre_Empleado, 
-    salario AS Salario
+SELECT nombre AS Nombre_Empleado, salario AS Salario
 FROM datos_empleados
 WHERE salario > (SELECT AVG(salario) FROM datos_empleados);
 
 -- 4. Consultar productos que han sido pedidos más de 5 veces.
-SELECT 
-    p.nombre AS Nombre_Producto,
+SELECT p.nombre AS Nombre_Producto,
     (SELECT COUNT(*)
      FROM detalles_pedido dp
      WHERE dp.producto_id = p.id) AS Veces_Pedido
@@ -52,8 +47,7 @@ WHERE (SELECT COUNT(*)
        WHERE dp.producto_id = p.id) > 5;
 
 -- 5. Listar pedidos cuyo total es mayor al promedio de todos los pedidos.
-SELECT 
-    p.id AS Id_Pedido,
+SELECT p.id AS Id_Pedido,
     (SELECT SUM(dp.cantidad * dp.precio) 
      FROM detalles_pedido dp 
      WHERE dp.pedido_id = p.id) AS Total_Pedido
@@ -72,8 +66,7 @@ WHERE (SELECT SUM(dp.cantidad * dp.precio)
       );
 
 -- 6. Seleccionar los 3 proveedores con más productos.
-SELECT 
-    pv.nombre AS Nombre_Proveedor,
+SELECT pv.nombre AS Nombre_Proveedor,
     (SELECT COUNT(*) 
      FROM productos p 
      WHERE p.proveedor_id = pv.id) AS Total_Productos
@@ -82,10 +75,7 @@ ORDER BY (SELECT COUNT(*) FROM productos p WHERE p.proveedor_id = pv.id) DESC
 LIMIT 3;
 
 -- 7. Consultar productos con precio superior al promedio en su tipo.
-SELECT 
-    p.nombre AS Nombre_Producto, 
-    p.precio AS Precio, 
-    tp.tipo_nombre AS Tipo_Producto
+SELECT p.nombre AS Nombre_Producto, p.precio AS Precio, tp.tipo_nombre AS Tipo_Producto
 FROM productos p
 INNER JOIN tipos_productos tp ON p.tipo_id = tp.id
 WHERE p.precio > (
@@ -95,8 +85,7 @@ WHERE p.precio > (
 );
 
 -- 8. Mostrar clientes que han realizado más pedidos que la media.
-SELECT 
-    c.nombre AS Nombre_Cliente,
+SELECT c.nombre AS Nombre_Cliente,
     (SELECT COUNT(*) FROM pedidos p WHERE p.cliente_id = c.id) AS Total_Pedidos
 FROM clientes c
 WHERE (SELECT COUNT(*) FROM pedidos p WHERE p.cliente_id = c.id)
@@ -110,17 +99,13 @@ WHERE (SELECT COUNT(*) FROM pedidos p WHERE p.cliente_id = c.id)
       );
 
 -- 9. Encontrar productos cuyo precio es mayor que el promedio de todos los productos.
-SELECT 
-    p.nombre AS Nombre_Producto, 
-    p.precio AS Precio
+SELECT p.nombre AS Nombre_Producto, p.precio AS Precio
 FROM productos p
 WHERE p.precio > (SELECT AVG(precio) FROM productos);
 
 -- 10. Mostrar empleados cuyo salario es menor al promedio del departamento.
 -- En este caso, asumiremos que el "departamento" se corresponde con el "puesto" de cada empleado.
-SELECT 
-    de.nombre AS Nombre_Empleado, 
-    de.salario AS Salario,
+SELECT de.nombre AS Nombre_Empleado, de.salario AS Salario,
     (SELECT AVG(de2.salario)
      FROM datos_empleados de2
      WHERE de2.puesto_id = de.puesto_id) AS Salario_Promedio_Departamento

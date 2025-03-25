@@ -23,21 +23,21 @@ CREATE TABLE entidad_ubicaciones (
     id INT PRIMARY KEY AUTO_INCREMENT,
     ubicacion_id INT,
     entidad_id INT,
-    entidad_tipo VARCHAR(50), -- Ejemplo: 'clientes', 'proveedores'
+    entidad_tipo VARCHAR(25), -- Ejemplo: 'clientes', 'proveedores'
     FOREIGN KEY (ubicacion_id) REFERENCES ubicaciones(id)
 );
 
 CREATE TABLE puestos (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(50) NOT NULL,
+    nombre VARCHAR(30) NOT NULL,
     descripcion TEXT
 );
 
 CREATE TABLE datos_empleados (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100),
+    nombre VARCHAR(30),
     puesto_id INT,
-    salario DECIMAL(10,2),
+    salario DECIMAL(8,2),
     fecha_contratacion DATE,
     FOREIGN KEY (puesto_id) REFERENCES puestos(id)
 );
@@ -45,7 +45,7 @@ CREATE TABLE datos_empleados (
 -- Tabla proveedores reducida a datos básicos
 CREATE TABLE proveedores (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100)
+    nombre VARCHAR(45)
 );
 
 CREATE TABLE contacto_proveedores (
@@ -69,7 +69,7 @@ CREATE TABLE empleados_proveedores (
 DROP TABLE IF EXISTS tipos_productos;
 CREATE TABLE tipos_productos (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    tipo_nombre VARCHAR(100),
+    tipo_nombre VARCHAR(130),
     descripcion TEXT,
     parent_id INT DEFAULT NULL,
     FOREIGN KEY (parent_id) REFERENCES tipos_productos(id)
@@ -78,7 +78,7 @@ CREATE TABLE tipos_productos (
 -- Tabla productos
 CREATE TABLE productos (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100),
+    nombre VARCHAR(75),
     precio DECIMAL(10, 2),
     proveedor_id INT,
     tipo_id INT,
@@ -135,8 +135,8 @@ CREATE TABLE pedido_totales (
 CREATE TABLE historial_salarios (
     id INT PRIMARY KEY AUTO_INCREMENT,
     empleado_id INT NOT NULL,
-    old_salary DECIMAL(10,2) NOT NULL,
-    new_salary DECIMAL(10,2) NOT NULL,
+    old_salary DECIMAL(8,2) NOT NULL,
+    new_salary DECIMAL(8,2) NOT NULL,
     change_date DATETIME NOT NULL,
     CONSTRAINT fk_historial_salarios_empleado FOREIGN KEY (empleado_id) REFERENCES datos_empleados(id)
 );

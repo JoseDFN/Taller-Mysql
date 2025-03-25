@@ -1,3 +1,5 @@
+USE vtaszfs;
+
 -- Obtener la lista de todos los pedidos con los nombres de clientes usando INNER JOIN .
 
 SELECT p.id as Id_Pedido, p.fecha as Fecha_Pedido, c.nombre as Nombre_Cliente

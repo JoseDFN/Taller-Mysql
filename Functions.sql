@@ -1,3 +1,5 @@
+USE vtaszfs;
+
 -- 1. Función que recibe una fecha y devuelve los días transcurridos desde esa fecha hasta hoy.
 DELIMITER $$
 CREATE FUNCTION fnDiasTranscurridos(p_fecha DATE)
@@ -69,7 +71,7 @@ CREATE FUNCTION fnSalarioAnual(p_empleado_id INT)
 RETURNS DECIMAL(10,2)
 DETERMINISTIC
 BEGIN
-    DECLARE salario_mensual DECIMAL(10,2);
+    DECLARE salario_mensual DECIMAL(8,2);
     SELECT salario INTO salario_mensual
     FROM datos_empleados
     WHERE id = p_empleado_id;

@@ -1,3 +1,5 @@
+USE vtaszfs;
+
 -- 1. Listar todos los pedidos y el cliente asociado.
 SELECT p.id AS Id_Pedido, p.fecha AS Fecha_Pedido, c.nombre AS Nombre_Cliente
 FROM pedidos AS p

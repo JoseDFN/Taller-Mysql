@@ -1,3 +1,5 @@
+USE vtaszfs;
+
 -- Seleccionar todos los productos con precio mayor a $50.
 
 SELECT p.nombre AS Producto, p.precio AS Precio
