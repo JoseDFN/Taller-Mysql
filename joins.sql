@@ -12,7 +12,7 @@ ORDER BY p.fecha DESC;
 SELECT p.nombre as Nombre_Producto, p.precio as Precio_Producto, pv.nombre as Proveedor_Producto
 FROM productos as p
 INNER JOIN proveedores as pv ON p.proveedor_id = pv.id
-ORDER BY p.nombre ASC
+ORDER BY p.nombre ASC;
 
 -- Mostrar los pedidos y las ubicaciones de los clientes con LEFT JOIN .
 

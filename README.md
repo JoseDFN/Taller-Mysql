@@ -454,7 +454,7 @@ INNER JOIN clientes AS c ON p.cliente_id = c.id
 INNER JOIN entidad_ubicaciones AS eu 
     ON c.id = eu.entidad_id AND eu.entidad_tipo = 'clientes'
 INNER JOIN ubicaciones AS u ON eu.ubicacion_id = u.id
-WHERE u.ciudad = 'CiudadEjemplo'
+WHERE u.ciudad = 'Bucaramanga' -- Agregar ciudad deseada
 ORDER BY de.nombre;
 
 -- 5. Consultar los 5 productos más vendidos.
